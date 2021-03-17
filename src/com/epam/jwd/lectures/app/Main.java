@@ -4,7 +4,6 @@ import com.epam.jwd.lectures.model.Animal;
 import com.epam.jwd.lectures.model.Cat;
 import com.epam.jwd.lectures.model.Dog;
 import com.epam.jwd.lectures.model.Human;
-import com.epam.jwd.lectures.service.AnimalService;
 
 public class Main {
     public static void main(String[] args) {
