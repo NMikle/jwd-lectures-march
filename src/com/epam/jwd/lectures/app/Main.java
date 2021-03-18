@@ -1,46 +1,52 @@
 package com.epam.jwd.lectures.app;
 
-import com.epam.jwd.lectures.model.Animal;
-import com.epam.jwd.lectures.model.Cat;
-import com.epam.jwd.lectures.model.Dog;
 import com.epam.jwd.lectures.model.Human;
+import com.epam.jwd.lectures.model.Immutable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-//        final Object vasya = new Human("Vasya", 11);
-//        System.out.println(vasya);
-//        Object
+//        int biggerThanCacheUpperLimit = 128;
+//        int anotherBiggerThanCacheUpperLimit = 128; //equal
 
-//        final Animal cat = createCat();
-//        final Animal dog = createDog();
-//
-//        AnimalService.saySomething(cat);
-//        AnimalService.saySomething(dog);
+//        final Integer four = new Integer("4");
+//        final Integer anotherFour = new Integer("4"); //not equal
 
-        final Human boris = new Human("Boris", 12);
-        final Human boris2 = new Human("Boris", 12);
-        final Human katya = new Human("Katya", 33);
-        System.out.println(boris.hashCode());
-        System.out.println(boris2.hashCode());
+//        final Integer four = 4;
+//        final Integer anotherFour = 4; // equal
 
-        byte a = 017;
-        short b = 0xAF;
-        int c;
-        long d;
+//        final Integer four = 128;
+//        final Integer anotherFour = 128; // not equal
 
-        float e = 1.0f;
-        double f = 2.0;
+//        String s1 = "Hello";
+//        String s2 = "Hello"; //equal
 
-        boolean g = false;
+//        String s1 = new String("Hello");
+//        String s2 = new String("Hello");
+//        System.out.println(s1 == s2);//not equal
+//        s1 = s1.intern();
+//        s2 = s2.intern();
+//        System.out.println(s1 == s2);//equal
 
-        char h = '\u0000';
-    }
+//        final String s1 = "Orange fox";
+//        final String s2 = s1.substring(0, 6);
+//        System.out.println(s1);
+//        System.out.println(s2);
 
-    private static Animal createDog() {
-        return new Dog("Sharik");
-    }
+        final List<Human> people = new ArrayList<>();
+        final Human vasya = new Human("Vasya", 12);
+        final Human anya = new Human("Anya", 11);
 
-    private static Animal createCat() {
-        return new Cat("Barsik");
+        people.add(anya);
+        people.add(vasya);
+        final Immutable immutableObject = new Immutable("Hello", vasya, people);
+
+        System.out.println(immutableObject.getC());
+
+        immutableObject.getC().get(0).setSomething(true);
+
+        System.out.println(immutableObject.getC());
     }
 }

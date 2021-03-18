@@ -23,6 +23,14 @@ public class Human {
         return age;
     }
 
+    public boolean isSomething() {
+        return something;
+    }
+
+    public void setSomething(boolean something) {
+        this.something = something;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -41,6 +49,7 @@ public class Human {
         return "Human{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
+                ", something=" + something +
                 '}';
     }
 }
