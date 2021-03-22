@@ -25,7 +25,7 @@ public final class Immutable /*extends Human*/ {
     }
 
     private Human copyHuman(Human humanToCopy) {
-        final Human bCopy = new Human(humanToCopy.getName(), humanToCopy.getAge());
+        final Human bCopy = Human.create(humanToCopy.getName(), humanToCopy.getAge());
         bCopy.setSomething(humanToCopy.isSomething());
         return bCopy;
     }

@@ -1,23 +1,24 @@
 package com.epam.jwd.lectures.app;
 
-import com.epam.jwd.lectures.blocks.C;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.epam.jwd.lectures.model.Human;
 
 public class Main {
 
-    private static final Logger LOGGER = LogManager.getLogger(Main.class);
-
     public static void main(String[] args) {
-        final C variable = new C();
-        final C anotherVariable = new C();
-//        LOGGER.info("Program Started");
-//        final Animal awesomeCat = new Cat("Barsik");
-//        System.out.println(Pet.staticMethod());
-//        AnimalService.saySomething(awesomeCat);
-//        final Human someHuman = new Human("a", 12);
-//        someHuman.setSomething(true);
-//        System.out.println(someHuman);
-//        LOGGER.info("Program Ended");
+//        System.out.println("Start");
+//        final Color c = Color.of("0000ff");
+//        System.out.println("call to Color successful");
+//        final Color cc = Color.BLUE;
+//        System.out.println(c.name());
+//        System.out.println("end");
+
+        final Human a = Human.create("Vasya", 17);
+        final Human b = Human.create("Petya", 22);
+        final Human c = Human.create("Vasya", 98);
+        for (int i = 0; i < 22; i++) {
+            final Human d = Human.create("Vasya" + i, 14 + i);
+        }
+        final Human alice = Human.create("Alice", 11);
+        System.out.println(a == c);
     }
 }
