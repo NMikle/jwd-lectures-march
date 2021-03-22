@@ -13,4 +13,6 @@ public interface Animal extends Entity {
     static void hey() {
         System.out.println("Hey");
     }
+
+    void prepareBeforeNoise();
 }

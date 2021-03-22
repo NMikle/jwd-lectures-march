@@ -2,7 +2,7 @@ package com.epam.jwd.lectures.model;
 
 import java.util.Objects;
 
-public class Human {
+public final class Human {
 
     public static final int MIN_AGE = 0;
 
@@ -27,7 +27,7 @@ public class Human {
         return something;
     }
 
-    public void setSomething(boolean something) {
+    public void setSomething(final boolean something) {
         this.something = something;
     }
 
@@ -35,7 +35,7 @@ public class Human {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Human human = (Human) o;
+        final Human human = (Human) o;
         return age == human.age && Objects.equals(name, human.name);
     }
 

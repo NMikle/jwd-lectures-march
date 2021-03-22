@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class Immutable {
+public final class Immutable /*extends Human*/ {
 
     private final String a;
     private final Human b;

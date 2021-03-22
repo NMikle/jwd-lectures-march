@@ -1,5 +1,7 @@
 package com.epam.jwd.lectures.service;
 
+import com.epam.jwd.lectures.blocks.A;
+import com.epam.jwd.lectures.blocks.C;
 import com.epam.jwd.lectures.model.Animal;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
