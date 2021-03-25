@@ -21,7 +21,13 @@ public abstract class Pet implements Animal {
         return "noise";
     }
 
+    @Override
     public final void prepareBeforeNoise() {
         //todo: some logic
+    }
+
+    public final void testMethod() {
+        System.out.println("Test method");
+        //todo: logic
     }
 }
