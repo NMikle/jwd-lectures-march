@@ -4,7 +4,8 @@ public enum Color {
     //        public static final Color BLUE;
     RED("FF0000"),
     GREEN("00FF00"),
-    BLUE("0000FF");
+    BLUE("0000FF"),
+    WHITE("000000");
 
     private final String hexValue;
 
