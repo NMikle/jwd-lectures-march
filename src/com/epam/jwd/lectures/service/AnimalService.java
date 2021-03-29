@@ -10,6 +10,7 @@ public class AnimalService {
 
     public static void saySomething(Animal animal) {
         LOGGER.trace("saySomething entered with {} animal", animal);
+        animal.prepareBeforeNoise();
         System.out.println(animal.makeSomeNoise());
         LOGGER.info("noise made");
         LOGGER.trace("saySomething ended");

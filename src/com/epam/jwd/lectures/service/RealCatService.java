@@ -26,4 +26,9 @@ public class RealCatService implements CatService {
     public void close() {
         System.out.println("service closed");
     }
+
+    @Override
+    public int compare(Cat o1, Cat o2) {
+        return o1.compareTo(o2);
+    }
 }

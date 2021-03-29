@@ -1,75 +1,76 @@
 package com.epam.jwd.lectures.app;
 
-import com.epam.jwd.lectures.exception.NotARealCat;
 import com.epam.jwd.lectures.model.Cat;
-import com.epam.jwd.lectures.model.ToyCat;
-import com.epam.jwd.lectures.service.CatService;
-import com.epam.jwd.lectures.service.RealCatService;
+import com.epam.jwd.lectures.repository.CatStorage;
+import com.epam.jwd.lectures.repository.StorageFactory;
 
 public class Main {
 
     public static void main(String[] args) {
-//        int a = 8;
-//        System.out.println(checkInputEightRelationship(8));
 
-//        for (int i = 0; i < 10; i++) {
-//            System.out.println("Hey " + i);
-//        }
-//        String str = "Hello";
-//        while (!str.isEmpty()) {
-//            str = str.substring(1);
-//            System.out.println(str);
-//        }
-//        str = "World";
-//        do {
-//            str = str.substring(1);
-//            System.out.println(str);
-//        } while (!str.isEmpty());
+//        Animal mammal = new Animal() {
+//            @Override
+//            public String makeSomeNoise() {
+//                return "sound";
+//            }
+//
+//            @Override
+//            public void prepareBeforeNoise() {
+//                System.out.println("Hey");
+//            }
+//        };
+//
+//        };
+//        AnimalService.saySomething(pet);
 
-//        checkColor("Hey");
+        CatStorage storage = StorageFactory.newInstance().catStorage();
+        storage.add(new Cat("Barsik"));
+        storage.add(new Cat("Mikki"));
+        final Cat a = new Cat("A");
+        storage.add(a);
+        a.setReadyToBePetted(true);
+        storage.add(new Cat("B"));
 
-//        final Cat cat = new ToyCat("  Mikki    ");
-//        cat.setReadyToBePetted(true);
-//        try (CatService service = new RealCatService()) {
-//            service.pet(cat);
-//            System.out.println("end of try");
-//        } catch (NotARealCat e) {
-//            System.out.println("You've tried to pet toy cat");
-//            System.out.println(e.getMessage());
-//        } finally {
-//            System.out.println("Hey from finally");
-//        }
-    }
+//        int k = 3;
+//
+//        storage.sort(new Comparator<Cat>() {
+//            @Override
+//            public int compare(Cat o1, Cat o2) {
+////                k = 4; !!! IMPOSSIBLE !!!
+//                System.out.println(k);
+//                return o1.isReadyToBePetted() ? 1 : o2.isReadyToBePetted() ? -1 : 0;
+//            }
+//        });
 
-    private static int divide(int a, int b) {
-        return a / b;
-    }
+//        int b = 8;
+//        storage.sort((o1, o2) -> {
+////            b =9;     !!! IMPOSSIBLE !!!
+//            System.out.println(b);
+//            return o1.isReadyToBePetted() ? 1 : o2.isReadyToBePetted() ? -1 : 0;
+//        });
 
-    private static String checkInputEightRelationship(int input) {
-        return input > 8
-                ? test()
-                : input < 8 ? "input fewer than eight" : "input is eight";
-    }
+//        storage.sort(new Comparator<Cat>() {
+//            @Override
+//            public int compare(Cat o1, Cat o2) {
+//                return compareCats(o1, o2);
+//            }
+//        });
 
-    private static String test() {
-        System.out.println("wow");
-        return "";
-    }
+//        storage.sort((o1, o2) -> compareCats(o1, o2));
 
-    private static void checkColor(String input) {
-        switch (input) {
-            case "":
-                System.out.println("blue");
-            case "Wow":
-                System.out.println("red");
-                break;
-            case "Wow wow":
-                System.out.println("green");
-                break;
-            default:
-                System.out.println("unknown color");
-                break;
+        storage.sort(Main::compareCats);
+
+        for (Cat cat : storage) {
+            System.out.println(cat);
         }
-        System.out.println("end of checkColor");
+
+//        int a = 3;
+//        System.out.println(a++);
+//        System.out.println(++a);
     }
+
+    private static int compareCats(Cat a, Cat b) {
+        return a.isReadyToBePetted() ? 1 : b.isReadyToBePetted() ? -1 : 0;
+    }
+
 }
