@@ -4,6 +4,7 @@ import com.epam.jwd.lectures.model.Department;
 import com.epam.jwd.lectures.model.Employee;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +77,13 @@ public class Main {
             employeesByDepartment.get(department).forEach(System.out::println);
             System.out.println("------------");
         }
+
+        employeesByDepartment.values()
+                .stream()
+                .flatMap(Collection::stream)
+                .map(Employee::getAge)
+                .sorted()
+                .forEach(System.out::println);
 
     }
 
