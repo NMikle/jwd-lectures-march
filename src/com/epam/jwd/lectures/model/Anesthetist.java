@@ -1,26 +1,9 @@
 package com.epam.jwd.lectures.model;
 
-public class Anesthetist implements Doctor {
-
-    private final Doctor doctor;
+public class Anesthetist extends DoctorAdditionalSpeciality {
 
     public Anesthetist(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    @Override
-    public String getName() {
-        return doctor.getName();
-    }
-
-    @Override
-    public DoctorType getType() {
-        return doctor.getType();
-    }
-
-    @Override
-    public License showLicense() {
-        return doctor.showLicense();
+        super(doctor);
     }
 
     @Override
