@@ -2,7 +2,7 @@ package com.epam.jwd.lectures.model;
 
 import java.util.Objects;
 
-public class Department {
+public class Department implements Cloneable {
 
     private final String title;
 
@@ -12,6 +12,16 @@ public class Department {
 
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public Department clone() {
+        try {
+            return (Department) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Cloneable!!");
+        }
     }
 
     @Override

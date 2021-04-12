@@ -2,7 +2,7 @@ package com.epam.jwd.lectures.model;
 
 import java.util.Objects;
 
-public class Employee implements Comparable<Employee> {
+public class Employee implements Comparable<Employee>, Cloneable {
 
     private final String name;
     private final int age;
@@ -24,6 +24,18 @@ public class Employee implements Comparable<Employee> {
 
     public Department getDepartment() {
         return department;
+    }
+
+    @Override
+    public Employee clone() {
+        try {
+            final Employee empClone = (Employee) super.clone();
+            final Department departmentClone = this.department.clone();
+            return new Employee(empClone.name, empClone.age, departmentClone);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Cloneable interface should be implemented");
+        }
     }
 
     @Override
