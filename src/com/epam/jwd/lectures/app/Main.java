@@ -27,9 +27,11 @@ public class Main {
             System.out.println(window);
         }
 
-        List<Number> numbers = Arrays.asList(3, 2d, 1f, 4L);
-        oneMethod(numbers);
-        anotherMethod(numbers); //PECS   (Producer Extends; Consumer Super)
+        System.out.println(windows.getClass());
+
+//        List<Number> numbers = Arrays.asList(3, 2d, 1f, 4L);
+//        oneMethod(numbers);
+//        anotherMethod(numbers); //PECS   (Producer Extends; Consumer Super)
     }
 
     private static <E> List<E> buildList(E... arguments) {
