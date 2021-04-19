@@ -12,39 +12,46 @@ import java.util.List;
 public class CollectionsIdEntityStorage<T extends IdEntity<T>> implements GeneralStorage<T> {
 
     private final List<T> data;
+    private int size;
 
     public CollectionsIdEntityStorage(Collection<T> data) {
         this.data = new ArrayList<>(data);
+        this.size = data.size();
     }
 
     public CollectionsIdEntityStorage() {
         this.data = new ArrayList<>();
+        this.size = 0;
     }
 
     @Override
     public T add(T object) {
-        Integer maxId = data.stream()
-                .map(IdEntity::getId)
-                .max(Comparator.naturalOrder())
-                .orElse(0);
-        object.setId(++maxId);
+        if (object.getId() != null) {
+            throw new IllegalArgumentException("Entity id must be null");
+        }
+        object.setId(++size);
         data.add(object);
         return object;
     }
 
     @Override
-    public T get(int index) {
-        return data.get(index);
+    public T get(int id) {
+        return data.get(id - 1);
     }
 
     @Override
-    public T remove(int index) {
-        return data.remove(index);
+    public T remove(int id) {
+        return data.remove(id - 1);
     }
 
     @Override
     public int size() {
         return data.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return data.size() == 0;
     }
 
     @Override

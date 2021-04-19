@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Window implements IdEntity<Window> {
 
-    private int id;
+    private Integer id;
     private final String type;
 
     public Window(String type) {
@@ -12,13 +12,17 @@ public class Window implements IdEntity<Window> {
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override

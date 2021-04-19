@@ -1,7 +1,7 @@
 package com.epam.jwd.lectures.model;
 
 public interface IdEntity<E> extends Comparable<E> {
-    int getId();
+    Integer getId();
 
-    void setId(int id);
+    void setId(Integer id);
 }
