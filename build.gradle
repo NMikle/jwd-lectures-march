@@ -1,0 +1,11 @@
+plugins {
+    id 'java'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+group 'com.epam.jwd'
+version '1.0-SNAPSHOT'
