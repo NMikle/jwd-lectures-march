@@ -1,11 +1,6 @@
 package com.epam.jwd.lectures.app;
 
-import com.epam.jwd.lectures.concurrency.CalculationThread;
-import com.epam.jwd.lectures.concurrency.RaceConditionCounter;
-import com.epam.jwd.lectures.concurrency.SimpleRunnable;
-import com.epam.jwd.lectures.concurrency.StaleSleep;
-
-import java.util.stream.IntStream;
+import com.epam.jwd.lectures.concurrency.StaleCount;
 
 public class Main {
 
@@ -45,11 +40,11 @@ public class Main {
 //        System.out.printf("First result: %d, second result: %d\n", c1.count, c2.count);
 
 //        stale values
-//        final StaleSleep staleSleep = new StaleSleep();
-//        final Thread t = new Thread(staleSleep);
+//        final StaleCount staleCount = new StaleCount();
+//        final Thread t = new Thread(staleCount);
 //        t.start();
 //        Thread.sleep(1_000);
-//        staleSleep.setShouldStop(true);
+//        staleCount.setShouldStop(true);
 
 //        reordering
 //        final Thread t1 = new Thread(() -> {
@@ -69,5 +64,6 @@ public class Main {
 
         int a = 4;
         System.out.println("program end");
+//        Thread.currentThread().getState()
     }
 }

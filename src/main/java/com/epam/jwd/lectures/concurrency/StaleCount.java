@@ -1,6 +1,6 @@
 package com.epam.jwd.lectures.concurrency;
 
-public class StaleSleep implements Runnable {
+public class StaleCount implements Runnable {
     private volatile boolean shouldStop;
     private int counter;
 
