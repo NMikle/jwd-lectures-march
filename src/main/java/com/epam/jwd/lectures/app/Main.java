@@ -2,6 +2,15 @@ package com.epam.jwd.lectures.app;
 
 import com.epam.jwd.lectures.concurrency.StaleCount;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
 public class Main {
 
     static int x = 0;
@@ -9,7 +18,7 @@ public class Main {
     static int a = 0;
     static int b = 0;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws ExecutionException {
         System.out.println("program start");
 
         //first thread creation variant
@@ -62,8 +71,36 @@ public class Main {
 //
 //        System.out.printf("x: %d, y: %d\n", x, y);
 
-        int a = 4;
+
+        final ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+        final Future<Integer> pendingResult = executorService.submit(() -> 2 + 2);
+
+        System.out.println("result computing");
+        if (!pendingResult.isDone()) {
+            System.out.println("still computing");
+            pendingResult.cancel(true);
+        }
+        try {
+            final Integer operationResult = !pendingResult.isCancelled() ? pendingResult.get() : 0;
+
+            System.out.println("done: " + operationResult);
+
+            executorService.shutdown();
+            if (!executorService.awaitTermination(2, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            return;
+        }
+
         System.out.println("program end");
 //        Thread.currentThread().getState()
+
+
+//        final List<Long> someData = new ArrayList<>();
+//        final List<Long> synchronizedData = Collections.synchronizedList(someData); //uses locks (very bad) -- do not use!!!!!
     }
 }

@@ -1,5 +1,8 @@
 package com.epam.jwd.lectures.concurrency;
 
+import com.epam.jwd.lectures.exception.NotEnoughMoneyException;
+import com.epam.jwd.lectures.model.BankAccount;
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -34,6 +37,22 @@ public class ConcurrentBank {
             e.printStackTrace();
         } finally {
             lock.unlock();
+        }
+    }
+
+    public void transferMoneyWithDeadLock(BankAccount from, BankAccount to, int amount)
+            throws NotEnoughMoneyException {
+        BankAccount first = from.compareTo(to) > 0 ? to : from;
+        BankAccount second = first == from ? to : from;
+        synchronized (first) {
+            synchronized (second) {
+                if (from.getBalance() < amount) {
+                    throw new NotEnoughMoneyException();
+                } else {
+                    from.debit(amount);
+                    to.credit(amount);
+                }
+            }
         }
     }
 
