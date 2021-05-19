@@ -1,17 +1,17 @@
 package com.epam.jwd.lectures.app;
 
+import com.epam.jwd.lectures.exception.CouldNotInitializeConnectionPoolException;
 import com.epam.jwd.lectures.model.AppUser;
+import com.epam.jwd.lectures.pool.ConnectionPool;
+import com.epam.jwd.lectures.pool.SqlThrowingConsumer;
+import com.epam.jwd.lectures.pool.SqlThrowingFunction;
 
 import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 
 public class Main {
@@ -20,29 +20,33 @@ public class Main {
     private static final String ID_COLUMN = "id";
     private static final String NAME_COLUMN = "u_name";
     private static final String AGE_COLUMN = "u_age";
+    private static final SqlThrowingFunction<ResultSet, AppUser> APP_USER_MAPPER = resultSet ->
+            new AppUser(resultSet.getLong(ID_COLUMN),
+                    resultSet.getString(NAME_COLUMN),
+                    resultSet.getInt(AGE_COLUMN));
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CouldNotInitializeConnectionPoolException {
         System.out.println("start");
-        registerDrivers();
-        findUsersOlderThan(24).forEach(System.out::println);
-        deregisterDrivers();
+        ConnectionPool.retrieve().init();
+        findPreparedEntities(whereUserOlderThan(24), APP_USER_MAPPER, SELECT_USERS_OLDER_THEN)
+                .forEach(System.out::println);
+        ConnectionPool.retrieve().destroy();
         System.out.println("end");
     }
 
-    private static List<AppUser> findUsersOlderThan(int age) {
-        try (final Connection conn = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306/testDb", "root", "root");
-             final PreparedStatement statement = conn.prepareStatement(SELECT_USERS_OLDER_THEN)) {
-            statement.setInt(1, age);
+    private static <T> List<T> findPreparedEntities(SqlThrowingConsumer<PreparedStatement> preparationConsumer,
+                                                    SqlThrowingFunction<? super ResultSet, ? extends T> resultSetMapper,
+                                                    String sql) {
+        try (final Connection conn = ConnectionPool.retrieve().takeConnection();
+             final PreparedStatement statement = conn.prepareStatement(sql)) {
+            preparationConsumer.accept(statement);
             try (final ResultSet resultSet = statement.executeQuery()) {
-                List<AppUser> users = new ArrayList<>();
+                List<T> entities = new ArrayList<>();
                 while (resultSet.next()) {
-                    final AppUser user = new AppUser(resultSet.getLong(ID_COLUMN),
-                            resultSet.getString(NAME_COLUMN),
-                            resultSet.getInt(AGE_COLUMN));
-                    users.add(user);
+                    final T entity = resultSetMapper.apply(resultSet);
+                    entities.add(entity);
                 }
-                return users;
+                return entities;
             }
         } catch (SQLException e) {
             System.out.println("user name read unsuccessfully");
@@ -51,27 +55,7 @@ public class Main {
         }
     }
 
-    private static void registerDrivers() {
-        System.out.println("sql drivers registration start...");
-        try {
-            DriverManager.registerDriver(DriverManager.getDriver("jdbc:mysql://localhost:3306/testDb"));
-            System.out.println("registration successful");
-        } catch (SQLException e) {
-            System.out.println("registration unsuccessful");
-            e.printStackTrace();
-        }
-    }
-
-    private static void deregisterDrivers() {
-        System.out.println("sql drivers unregistering start...");
-        final Enumeration<Driver> drivers = DriverManager.getDrivers();
-        while (drivers.hasMoreElements()) {
-            try {
-                DriverManager.deregisterDriver(drivers.nextElement());
-            } catch (SQLException e) {
-                e.printStackTrace();
-                System.out.println("unregistering drivers failed");
-            }
-        }
+    private static SqlThrowingConsumer<PreparedStatement> whereUserOlderThan(int age) {
+        return statement -> statement.setInt(1, age);
     }
 }
