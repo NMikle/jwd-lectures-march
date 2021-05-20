@@ -1,4 +1,4 @@
-package com.epam.jwd.lectures.pool;
+package com.epam.jwd.lectures.dao.api;
 
 import java.sql.SQLException;
 

@@ -2,7 +2,7 @@ package com.epam.jwd.lectures.model;
 
 import java.util.Objects;
 
-public class AppUser {
+public class AppUser implements DbEntity {
 
     private final Long id;
     private final String name;

@@ -3,8 +3,8 @@ package com.epam.jwd.lectures.app;
 import com.epam.jwd.lectures.exception.CouldNotInitializeConnectionPoolException;
 import com.epam.jwd.lectures.model.AppUser;
 import com.epam.jwd.lectures.pool.ConnectionPool;
-import com.epam.jwd.lectures.pool.SqlThrowingConsumer;
-import com.epam.jwd.lectures.pool.SqlThrowingFunction;
+import com.epam.jwd.lectures.dao.api.SqlThrowingConsumer;
+import com.epam.jwd.lectures.dao.api.SqlThrowingFunction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
