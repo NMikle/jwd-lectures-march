@@ -1,61 +1,24 @@
 package com.epam.jwd.lectures.app;
 
-import com.epam.jwd.lectures.exception.CouldNotInitializeConnectionPoolException;
-import com.epam.jwd.lectures.model.AppUser;
-import com.epam.jwd.lectures.pool.ConnectionPool;
-import com.epam.jwd.lectures.dao.api.SqlThrowingConsumer;
-import com.epam.jwd.lectures.dao.api.SqlThrowingFunction;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.epam.jwd.lectures.annotation.SimpleUser;
+import com.epam.jwd.lectures.annotation.TalkingUser;
+import com.epam.jwd.lectures.annotation.User;
 
 public class Main {
+    public static void main(String[] args) {
+        final User alice = SimpleUser.newInstance(1, "Alice", "12345");
+        System.out.println(alice.getLogin());
+        System.out.println(alice.getPassword());
+        System.out.println(((TalkingUser) alice).saySomething());
+        System.out.println(((TalkingUser) alice).anotherSaySomething());
 
-    private static final String SELECT_USERS_OLDER_THEN = "select * from app_user where u_age > ?";
-    private static final String ID_COLUMN = "id";
-    private static final String NAME_COLUMN = "u_name";
-    private static final String AGE_COLUMN = "u_age";
-    private static final SqlThrowingFunction<ResultSet, AppUser> APP_USER_MAPPER = resultSet ->
-            new AppUser(resultSet.getLong(ID_COLUMN),
-                    resultSet.getString(NAME_COLUMN),
-                    resultSet.getInt(AGE_COLUMN));
-
-    public static void main(String[] args) throws CouldNotInitializeConnectionPoolException {
-        System.out.println("start");
-        ConnectionPool.retrieve().init();
-        findPreparedEntities(whereUserOlderThan(24), APP_USER_MAPPER, SELECT_USERS_OLDER_THEN)
-                .forEach(System.out::println);
-        ConnectionPool.retrieve().destroy();
-        System.out.println("end");
-    }
-
-    private static <T> List<T> findPreparedEntities(SqlThrowingConsumer<PreparedStatement> preparationConsumer,
-                                                    SqlThrowingFunction<? super ResultSet, ? extends T> resultSetMapper,
-                                                    String sql) {
-        try (final Connection conn = ConnectionPool.retrieve().takeConnection();
-             final PreparedStatement statement = conn.prepareStatement(sql)) {
-            preparationConsumer.accept(statement);
-            try (final ResultSet resultSet = statement.executeQuery()) {
-                List<T> entities = new ArrayList<>();
-                while (resultSet.next()) {
-                    final T entity = resultSetMapper.apply(resultSet);
-                    entities.add(entity);
-                }
-                return entities;
-            }
-        } catch (SQLException e) {
-            System.out.println("user name read unsuccessfully");
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
-    }
-
-    private static SqlThrowingConsumer<PreparedStatement> whereUserOlderThan(int age) {
-        return statement -> statement.setInt(1, age);
+//        final Class<SimpleUser> clazz = SimpleUser.class;
+//        final Method[] simpleUserMethods = clazz.getDeclaredMethods();
+//        final Method getPasswordMethod = Arrays.stream(simpleUserMethods)
+//                .filter(method -> "getPassword".equals(method.getName()))
+//                .findAny()
+//                .orElse(null);
+//        final Object returnedResult = getPasswordMethod.invoke(alice, null);
+//        System.out.println(returnedResult);
     }
 }
