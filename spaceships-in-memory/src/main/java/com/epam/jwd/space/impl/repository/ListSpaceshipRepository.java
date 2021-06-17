@@ -28,7 +28,7 @@ public class ListSpaceshipRepository implements SpaceshipRepository {
     public Spaceship save(Spaceship entity) {
         System.out.println("saving spaceship");
         final Spaceship spaceshipWithId = new Spaceship(++size,
-                entity.getName(), entity.getDistance(), entity.getPilot());
+                entity.name(), entity.distance(), entity.pilot());
         spaceships.add(spaceshipWithId);
         return spaceshipWithId;
     }
@@ -48,7 +48,7 @@ public class ListSpaceshipRepository implements SpaceshipRepository {
         return spaceships.stream()
                 .collect(
                         groupingBy(
-                                Spaceship::getPilot,
+                                Spaceship::pilot,
                                 mapping(identity(), toList())
                         )
                 );
@@ -57,7 +57,7 @@ public class ListSpaceshipRepository implements SpaceshipRepository {
     @Override
     public List<Spaceship> findSpaceshipsByPilot(Pilot pilot) {
         return spaceships.stream()
-                .filter(s -> s.getPilot().equals(pilot))
+                .filter(s -> s.pilot().equals(pilot))
                 .collect(toList());
     }
 }

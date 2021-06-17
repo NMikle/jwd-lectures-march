@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class DBSpaceshipRepository implements SpaceshipRepository {
 
-    public DBSpaceshipRepository() {
-        System.out.println("DB repo default constructor");
+    public DBSpaceshipRepository(int loadFactor) {
+        System.out.printf("DB repo constructor invoked with load factor %s\n", loadFactor);
     }
 
     @Override
